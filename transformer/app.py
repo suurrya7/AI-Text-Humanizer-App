@@ -95,26 +95,32 @@ class AcademicTextHumanizer:
 
     def expand_contractions(self, sentence):
         contraction_map = {
-            "n't": " not", "'re": " are", "'s": " is", "'ll": " will",
-            "'ve": " have", "'d": " would", "'m": " am"
+            "can't": "cannot",
+            "won't": "will not",
+            "n't": " not",
+            "'re": " are",
+            "'s": " is",
+            "'ll": " will",
+            "'ve": " have",
+            "'d": " would",
+            "'m": " am"
         }
-        tokens = word_tokenize(sentence)
-        expanded_tokens = []
-        for token in tokens:
-            lower_token = token.lower()
-            replaced = False
-            for contraction, expansion in contraction_map.items():
-                if contraction in lower_token and lower_token.endswith(contraction):
-                    new_token = lower_token.replace(contraction, expansion)
-                    if token[0].isupper():
-                        new_token = new_token.capitalize()
-                    expanded_tokens.append(new_token)
-                    replaced = True
-                    break
-            if not replaced:
-                expanded_tokens.append(token)
-
-        return ' '.join(expanded_tokens)
+        
+        result = sentence
+        for contraction, expansion in contraction_map.items():
+            # Case insensitive replacement while preserving original case
+            import re
+            pattern = re.compile(re.escape(contraction), re.IGNORECASE)
+            matches = pattern.finditer(result)
+            for match in reversed(list(matches)):
+                original = match.group()
+                if original[0].isupper():
+                    replaced = expansion[0].upper() + expansion[1:]
+                else:
+                    replaced = expansion
+                result = result[:match.start()] + replaced + result[match.end():]
+        
+        return result
 
     def add_academic_transitions(self, sentence):
         transition = random.choice(self.academic_transitions)
@@ -138,25 +144,29 @@ class AcademicTextHumanizer:
         return sentence
 
     def replace_with_synonyms(self, sentence):
-        tokens = word_tokenize(sentence)
-        pos_tags = nltk.pos_tag(tokens)
-
-        new_tokens = []
-        for (word, pos) in pos_tags:
-            if pos.startswith(('J', 'N', 'V', 'R')) and wordnet.synsets(word):
-                if random.random() < 0.5:
-                    synonyms = self._get_synonyms(word, pos)
+        doc = self.nlp(sentence)
+        result = sentence
+        
+        # Process tokens in reverse to maintain indices
+        replacements = []
+        for token in doc:
+            # Only replace content words (ADJ, NOUN, VERB, ADV) that aren't part of common phrases
+            if token.pos_ in ['ADJ', 'NOUN', 'VERB', 'ADV'] and not token.is_stop:
+                if random.random() < 0.3:  # Reduced probability per word
+                    synonyms = self._get_synonyms(token.text, token.tag_)
                     if synonyms:
-                        best_synonym = self._select_closest_synonym(word, synonyms)
-                        new_tokens.append(best_synonym if best_synonym else word)
-                    else:
-                        new_tokens.append(word)
-                else:
-                    new_tokens.append(word)
-            else:
-                new_tokens.append(word)
-
-        return ' '.join(new_tokens)
+                        best_synonym = self._select_closest_synonym(token.text, synonyms)
+                        if best_synonym and len(best_synonym.split()) == 1:  # Only single-word synonyms
+                            # Preserve capitalization
+                            if token.text[0].isupper():
+                                best_synonym = best_synonym.capitalize()
+                            replacements.append((token.idx, token.idx + len(token.text), best_synonym))
+        
+        # Apply replacements in reverse order
+        for start, end, replacement in reversed(replacements):
+            result = result[:start] + replacement + result[end:]
+        
+        return result
 
     def _get_synonyms(self, word, pos):
         wn_pos = None
