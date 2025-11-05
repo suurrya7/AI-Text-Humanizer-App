@@ -5,6 +5,11 @@ Transform AI-generated text into **formal, human-like, and academic writing** wi
 ![Python](https://img.shields.io/badge/Python-3.10-blue?style=flat-square&logo=python)
 ![License](https://img.shields.io/github/license/DadaNanjesha/AI-Text-Humanizer-App?style=flat-square)
 
+
+## Note : (Try It )
+Building new version of this project here in this repos https://github.com/DadaNanjesha/DN-Bot
+
+
 ## 📌 Features  
 
 ✅ **AI-Powered Text Refinement**: Converts AI-generated or informal text into a more **academic** and **human-like** format.  
@@ -133,4 +138,3 @@ For any issues or feature requests, feel free to:
 ---
 
 🔥 **Transform Your AI-Generated Text with Ease!** ✨
-
