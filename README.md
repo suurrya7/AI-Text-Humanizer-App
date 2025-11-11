@@ -7,7 +7,7 @@ Transform AI-generated text into **formal, human-like, and academic writing** wi
 
 
 ## Note : (Try It )
-Building new version of this project here in this repos https://github.com/DadaNanjesha/DN-Bot
+Building new version of this project here in this repos [https://github.com/DadaNanjesha/AI-content-detector-Humanizer](https://github.com/DadaNanjesha/AI-content-detector-Humanizer)
 
 
 ## 📌 Features  
