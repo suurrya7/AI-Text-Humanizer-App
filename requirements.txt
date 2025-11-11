@@ -2,7 +2,7 @@ altair==5.5.0
 annotated-types==0.7.0
 attrs==25.1.0
 blinker==1.9.0
-blis==1.2.1                  # bump to last 3.11-compatible version
+blis==1.2.0
 cachetools==5.5.1
 catalogue==2.0.10
 certifi==2025.1.31
@@ -34,27 +34,27 @@ murmurhash==1.0.12
 narwhals==1.25.2
 networkx==3.4.2
 nltk==3.9.1
-numpy==1.26.2                  # 2.2.2 is not needed; 1.26.x stable for 3.11
+numpy==2.2.2
 packaging==24.2
 pandas==2.2.3
 pillow==11.1.0
 preshed==3.0.9
 protobuf==5.29.3
-pyarrow==10.0.1                # upgrade from 19.0.0 for 3.11 compatibility
+pyarrow==19.0.0
 pydantic==2.10.6
 pydantic_core==2.27.2
 pydeck==0.9.1
-Pygments==2.19.2
+Pygments==2.19.1
 PyQt6==6.8.1
 PyQt6-Qt6==6.8.2
 PyQt6_sip==13.10.0
-python-dateutil==2.9.2         # upgrade for compatibility
+python-dateutil==2.9.0.post0
 pytz==2025.1
 PyYAML==6.0.2
 referencing==0.36.2
 regex==2024.11.6
 requests==2.32.3
-rich==14.2.0
+rich==13.9.4
 rpds-py==0.22.3
 safetensors==0.5.2
 scikit-learn==1.6.1
